@@ -3,6 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mynotes/firebase_options.dart';
 import 'package:mynotes/views/login_view.dart';
+import 'package:mynotes/views/register_view.dart';
+
+import 'views/verify_email_view.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,6 +15,10 @@ void main() {
       primarySwatch: Colors.blue,
     ),
     home: const HomePage(),
+    routes: {
+      '/login/': (context) => const LoginView(),
+      '/register/': (context) => const RegisterView()
+    },
   ));
 }
 
@@ -20,29 +27,28 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: const Text('Home')),
-        body: FutureBuilder(
-          future: Firebase.initializeApp(
-            options: DefaultFirebaseOptions.currentPlatform,
-          ),
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.done:
-                final user = FirebaseAuth.instance.currentUser;
-                if (user?.isAnonymous ?? false) {
-                  return const Text('You are not auth');
-                } else {
-                  if (user?.emailVerified ?? false) {
-                    return const Text('You are verified user');
-                  } else {
-                    return const Text('You need to verify user');
-                  }
-                }
-              default:
-                return const Text('Loading...');
+    return FutureBuilder(
+      future: Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      ),
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.done:
+            final user = FirebaseAuth.instance.currentUser;
+            print(user);
+            if (user?.isAnonymous ?? false) {
+              return const LoginView();
+            } else {
+              if (user?.emailVerified ?? false) {
+                return const Text('You are verified user');
+              } else {
+                return const VerifyEmailView();
+              }
             }
-          },
-        ));
+          default:
+            return const CircularProgressIndicator();
+        }
+      },
+    );
   }
 }
