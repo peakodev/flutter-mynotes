@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mynotes/constants/routes.dart';
-import 'package:mynotes/views/notes_view.dart';
 
 class UserInformaion extends StatelessWidget {
   const UserInformaion({Key? key}) : super(key: key);
@@ -17,8 +16,10 @@ class UserInformaion extends StatelessWidget {
         leading: BackButton(
           color: Colors.white,
           onPressed: () {
-            Navigator.of(context)
-                .pushNamedAndRemoveUntil(notesRoute, (route) => false);
+            Navigator.of(context).pushNamedAndRemoveUntil(
+              notesRoute,
+              (route) => false,
+            );
           },
         ),
       ),
