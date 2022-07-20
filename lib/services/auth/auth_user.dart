@@ -7,8 +7,15 @@ class AuthUser {
   final bool isEmailVerified;
   final DateTime? creationTime;
 
-  const AuthUser(this.email, this.isEmailVerified, this.creationTime);
+  const AuthUser({
+    required this.email,
+    required this.isEmailVerified,
+    required this.creationTime,
+  });
 
-  factory AuthUser.fromFirebase(firebase.User user) =>
-      AuthUser(user.email, user.emailVerified, user.metadata.creationTime);
+  factory AuthUser.fromFirebase(firebase.User user) => AuthUser(
+        email: user.email,
+        isEmailVerified: user.emailVerified,
+        creationTime: user.metadata.creationTime,
+      );
 }
