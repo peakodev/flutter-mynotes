@@ -1,15 +1,15 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mynotes/constants/routes.dart';
+import 'package:mynotes/services/auth/auth_service.dart';
 
 class UserInformaion extends StatelessWidget {
   const UserInformaion({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser;
+    final user = AuthService.firebase().currentUser;
     final email = user?.email ?? '';
-    final creationTime = user?.metadata.creationTime?.toIso8601String() ?? '';
+    final creationTime = user?.creationTime?.toIso8601String() ?? '';
     return Scaffold(
       appBar: AppBar(
         title: const Text('User information'),
