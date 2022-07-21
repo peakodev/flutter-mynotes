@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mynotes/constants/routes.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
 
-class UserInformaion extends StatelessWidget {
-  const UserInformaion({Key? key}) : super(key: key);
+class UserInformaionView extends StatelessWidget {
+  const UserInformaionView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

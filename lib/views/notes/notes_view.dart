@@ -29,12 +29,16 @@ class _NotesViewState extends State<NotesView> {
 
   @override
   Widget build(BuildContext context) {
-    final user = AuthService.firebase().currentUser;
-    final email = user?.email ?? '';
     return Scaffold(
       appBar: AppBar(
-        title: Text('Hi, $email'),
+        title: const Text('Your notes'),
         actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(newNoteRoute);
+            },
+            icon: const Icon(Icons.add),
+          ),
           PopupMenuButton<MenuAction>(
             itemBuilder: (context) {
               return const [
