@@ -120,6 +120,7 @@ class MockAuthProvider implements AuthProvider {
     if (email == 'foo@bar.com') throw UserNotFoundAuthException();
     if (password == 'foobar') throw WrongPasswordAuthException();
     final user = AuthUser(
+      id: 'my-id-1',
       email: 'true@user.com',
       isEmailVerified: false,
       creationTime: DateTime.now(),
@@ -142,6 +143,7 @@ class MockAuthProvider implements AuthProvider {
     final user = _user;
     if (user == null) throw UserNotFoundAuthException();
     final newUser = AuthUser(
+      id: 'my-id-2',
       email: 'true@user.com',
       isEmailVerified: true,
       creationTime: DateTime.now(),
