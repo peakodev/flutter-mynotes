@@ -38,16 +38,6 @@ class _LoginViewState extends State<LoginView> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) async {
         if (state is AuthStateLoggedOut) {
-          final closeDialog = _closeDialogHandle;
-          if (!state.isLoading && closeDialog != null) {
-            closeDialog();
-            _closeDialogHandle = null;
-          } else if (state.isLoading && closeDialog == null) {
-            _closeDialogHandle = showLoadingDialog(
-              context: context,
-              text: 'Loading...',
-            );
-          }
           if (state.exception is UserNotFoundAuthException ||
               state.exception is WrongPasswordAuthException) {
             await showErrorDialog(context, 'Wrong credentials');
@@ -78,24 +68,23 @@ class _LoginViewState extends State<LoginView> {
             ),
             TextButton(
               onPressed: () async {
-                final email = _email.text;
-                final password = _password.text;
                 context.read<AuthBloc>().add(
                       AuthEventLogIn(
-                        email,
-                        password,
+                        _email.text,
+                        _password.text,
                       ),
                     );
               },
               child: const Text('Login'),
             ),
             TextButton(
-                onPressed: () {
-                  context.read<AuthBloc>().add(
-                        const AuthEventShouldRegister(),
-                      );
-                },
-                child: const Text('Not register yet? Register here!'))
+              onPressed: () {
+                context.read<AuthBloc>().add(
+                      const AuthEventShouldRegister(),
+                    );
+              },
+              child: const Text('Not register yet? Register here!'),
+            )
           ],
         ),
       ),
