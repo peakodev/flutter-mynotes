@@ -153,7 +153,6 @@ class MockAuthProvider implements AuthProvider {
 
   @override
   Future<void> resetPassword({required String email}) {
-    // TODO: implement resetPassword
     throw UnimplementedError();
   }
 }

@@ -75,28 +75,35 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
     // reset password
     on<AuthEventResetPassword>((event, emit) async {
-      if (event.email != null) {
-        emit(const AuthStateResetPassword(
-            exception: null,
-            isLoading: true,
-            emailSent: false,
-            loadingText: 'Please wait while I try to reset your password...'));
-        try {
-          await provider.resetPassword(email: event.email!);
-          emit(const AuthStateResetPassword(
-            exception: null,
-            isLoading: false,
-            emailSent: true,
-          ));
-          emit(const AuthStateLoggedOut(exception: null, isLoading: false));
-        } on Exception catch (e) {
-          emit(AuthStateResetPassword(
-              exception: e, isLoading: false, emailSent: false));
-        }
-      } else {
-        emit(const AuthStateResetPassword(
-            exception: null, isLoading: false, emailSent: false));
+      emit(const AuthStateResetPassword(
+        exception: null,
+        isLoading: false,
+        emailSent: false,
+      ));
+      final email = event.email;
+      if (email == null) {
+        return;
       }
+      emit(const AuthStateResetPassword(
+        exception: null,
+        isLoading: true,
+        emailSent: false,
+      ));
+      Exception? exception;
+      bool didSendEmail;
+      try {
+        await provider.resetPassword(email: email);
+        exception = null;
+        didSendEmail = true;
+      } on Exception catch (e) {
+        didSendEmail = false;
+        exception = e;
+      }
+      emit(AuthStateResetPassword(
+        exception: exception,
+        isLoading: false,
+        emailSent: didSendEmail,
+      ));
     });
   }
 }
