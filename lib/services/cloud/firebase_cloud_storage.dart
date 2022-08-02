@@ -5,10 +5,11 @@ import 'package:mynotes/services/cloud/cloud_storage_exceptions.dart';
 
 class FirebaseCloudStorage {
   // Setup service as Singleton - start
+  factory FirebaseCloudStorage() => _shared;
   static final FirebaseCloudStorage _shared =
       FirebaseCloudStorage._sharedInstance();
   FirebaseCloudStorage._sharedInstance();
-  factory FirebaseCloudStorage() => _shared;
+
   // Setup service as Singleton - end
 
   final notes = FirebaseFirestore.instance.collection('notes');
